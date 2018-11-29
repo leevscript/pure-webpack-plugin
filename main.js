@@ -17,35 +17,13 @@ module.exports = class {
 
   apply(compiler) {
     if ('hooks' in compiler) { // webpack 4
-      compiler.hooks.run.tapAsync(ID, run.bind(this))
-      compiler.hooks.watchRun.tapAsync(ID, watchRun.bind(this))
-      compiler.hooks.emit.tapAsync(ID, emit.bind(this))
+      compiler.hooks.emit.tapAsync(ID, this.emit.bind(this))
     } else { // webpack 2 / 3
-      compiler.plugin('run', run.bind(this))
-      compiler.plugin('watch-run', watchRun.bind(this))
-      compiler.plugin('emit', emit.bind(this))
-    }
-
-    async function run(compilation, callback) {
-      this.watching = false
-      callback()
-    }
-
-    async function watchRun(compilation, callback) {
-      this.watching = true
-      callback()
-    }
-
-    function emit(compilation, callback) {
-      if (!this.watching) {
-        this.run(compilation, callback)
-      } else {
-        callback()
-      }
+      compiler.plugin('emit', this.emit.bind(this))
     }
   }
 
-  async run(compilation, callback) {
+  async emit(compilation, callback) {
     let allFile = await this.getAllFile()
     let dependFile = this.getDependenciesFile(compilation.fileDependencies)
     let withoutFile = _.without(allFile, ...dependFile)
