@@ -1,10 +1,11 @@
 {
-  "name": "@leeleeleev/pure-webpack-plugin",
-  "version": "1.0.0",
+  "name": "pure-webpack-plugin",
+  "version": "1.0.1",
   "description": "查询非依赖文件插件",
   "author": "",
   "license": "ISC",
   "main": "main.js",
+  "git repository": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
